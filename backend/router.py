@@ -1,19 +1,14 @@
 # ROUTER
 from flask import Flask
 
-from controllers import wave_parse
+from controllers import parse_string
 
 app = Flask(__name__)
 
 # API Route
 @app.route("/parse_word")
 def parse_word():
-    return wave_parse()
-
-@app.route("/parse_sentence")
-def parse_sentence():
-    return wave_parse()
-
+    return parse_string("Toronto")
 
 
 if __name__ == "__main__":
