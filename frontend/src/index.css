@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    /*========== COLORS ==========*/
+    --black: #000000;
+    --white: #ffffff;
+
+    --background: var(--white);
+    --primary: var(--black);
+
+    /*========== SIZES ==========*/
+    --header-height: 60px;
+}
+
+[data-theme="dark"]
+{
+    --background: var(--black);
+    --primary: var(--white);
+}
+
 @layer components {
     /*========== GENERAL ==========*/
     html {
