@@ -20,6 +20,7 @@ def compute_circuits(circuits):
     basis_gates = noise_model.basis_gates
 
     # Run our circuit on a quantum computer simulator, using the pre. Monitor the execution of the job in the queue
+    print("\nSend circuits to", backend,"...")
     job =   execute(
                 circuits,
                 Aer.get_backend('qasm_simulator'),
@@ -28,6 +29,7 @@ def compute_circuits(circuits):
                 shots=1024
             )
     job_monitor(job, interval = 2)
+    print(backend, "response received.\n")
 
     # Get the results from the computation
     results = job.result()

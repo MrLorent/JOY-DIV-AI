@@ -9,11 +9,11 @@ from constants import NB_QUBITS
 from models import compute_circuits
 
 # OTHER IMPORTS
-from utils import word_to_byte_list
+from utils import string_to_byte_list
 from qiskit_functions import prepare_quantum_circuit
 
 def parse_string(string):
-    byte_list = word_to_byte_list(string, NB_QUBITS)
+    byte_list = string_to_byte_list(string, NB_QUBITS)
 
     circuits = prepare_quantum_circuit(byte_list, NB_QUBITS)
 
@@ -38,3 +38,6 @@ def parse_string(string):
     }
 
     return jsonify(json_parsed_string)
+
+def parse_word(word):
+    return parse_string(word)

@@ -1,6 +1,6 @@
 # UTILS
 
-def word_to_byte_list(word, nb_qubits) :
+def string_to_byte_list(word, nb_qubits) :
         #convert text to binary
         a_byte_array = bytearray(word, "utf8")
         byte_list = []
