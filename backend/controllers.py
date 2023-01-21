@@ -1,5 +1,4 @@
 # CONTROLLERS
-from flask import jsonify
 from collections import defaultdict
 
 # CONSTANTS IMPORTS
@@ -37,7 +36,7 @@ def parse_string(string):
         "data": data
     }
 
-    return jsonify(json_parsed_string)
+    return json_parsed_string
 
 def parse_word(word):
     return parse_string(word)
