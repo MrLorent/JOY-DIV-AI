@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /*========== GENERAL ==========*/
+    html {
+        width: theme("width.full");
+        height: theme("height.full");
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        padding: theme("padding.0");
+        margin: theme("margin.0");
+    }
+
+    body {
+        background-color: theme("colors.background");
+        color: theme("colors.primary");
+        font-family: "IBM Plex Mono";
+        font-size: theme("fontSize.base");
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        width: theme("width.full");
+        height: theme("height.full");
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        padding: theme("padding.0");
+        margin: theme("margin.0");
+    }
+}
