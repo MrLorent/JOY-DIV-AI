@@ -1,6 +1,7 @@
+# ROUTER
 from flask import Flask
 
-from parse import wave_parse
+from controllers import wave_parse
 
 app = Flask(__name__)
 
