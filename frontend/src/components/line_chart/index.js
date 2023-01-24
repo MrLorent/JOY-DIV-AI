@@ -8,16 +8,39 @@ const LineChart = ({ data }) => {
     const config = {
         options: {
           chart: {
-            width: "100%",
-            height: "400px",
+            height: "250px",
             type: "line",
+            width: "100%",
           },
-          colors: ["#ffffff"],
+          colors: [() => '#ffffff'],
           dataLabels: {
             enabled: false,
           },
+          fill: {
+            colors: ['#000000'],
+            opacity: 1,
+            type: 'solid',
+          },
           grid: {
             show: false,
+          },
+          legend: {
+            show: false,
+          },
+          stroke: {
+            curve: 'smooth',
+            lineCap: "round",
+            width: 3,
+          },
+          xaxis: {
+            labels: {
+              show: false,
+            },
+          },
+          yaxis: {
+            labels: {
+              show: false,
+            },
           },
         },
       };
@@ -38,7 +61,7 @@ const LineChart = ({ data }) => {
         ],
       }
     : null;
-    
+
   return data ? (
     <ApexChart
       className="flex justify-center items-center"

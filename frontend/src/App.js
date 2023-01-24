@@ -25,15 +25,23 @@ const App = () => {
               animations: {
                 enabled: false,
               },
-              width: "500px",
               height: "250px",
-              type: "line",
+              type: "area",
+              width: "600px",
             },
-            colors: ["#ffffff"],
+            colors: ['#ffffff'],
             dataLabels: {
               enabled: false,
             },
+            fill: {
+              colors: ['#000000'],
+              opacity: 1,
+              type: 'solid',
+            },
             grid: {
+              show: false,
+            },
+            legend: {
               show: false,
             },
             series: [
@@ -41,8 +49,21 @@ const App = () => {
                 data: raw_data.data,
               }
             ],
+            stroke: {
+              curve: 'smooth',
+              lineCap: "round",
+              width: 3,
+            },
             xaxis: {
               categories: raw_data.categories,
+              labels: {
+                show: false,
+              },
+            },
+            yaxis: {
+              labels: {
+                show: false,
+              },
             },
         };
 
