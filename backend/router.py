@@ -14,6 +14,9 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @cross_origin()
 def get_text_noise():
     text = request.form['text']
+    
+    
+
     return jsonify(parse_word(text)), 200
 
 @app.route("/example/word")

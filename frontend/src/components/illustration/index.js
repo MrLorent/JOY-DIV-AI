@@ -2,16 +2,14 @@
 import Loader from "../Loader"
 
 
-const Illustration = ({ data }) => {
-
+const Illustration = ({ curves }) => {
     /*======== RENDERER ========*/
     return (
         <div className="w-1/2 h-full flex flex-col items-center relative">
-            {data 
-            ?
-            data.map((curve, index) => <div key={index} className="curve" dangerouslySetInnerHTML={{__html: curve}}></div>)
+            {curves ?
+                curves.map((curve, index) => <div key={index} className="curve" dangerouslySetInnerHTML={{__html: curve}}></div>)
             :
-            <Loader />}
+                <Loader />}
         </div>
     );
 };

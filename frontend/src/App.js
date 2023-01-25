@@ -17,6 +17,12 @@ const App = () => {
   /*====== METHODS ======*/
   const fetch_text_noise = async () => {
     const data = await submit_text();
+    const svg_curves = await generate_svg_curves(data);
+
+    set_curves(svg_curves);
+  };
+
+  const generate_svg_curves = async (data) => {
     const options = {
       chart: {
         id: "temp_chart",
@@ -87,7 +93,8 @@ const App = () => {
       svg_curves.push(apexchart.ctx.exports.getSvgString());
     }
     apexchart.destroy();
-    set_curves(svg_curves);
+
+    return svg_curves;
   };
 
   /*======== HOOK ========*/
@@ -109,7 +116,7 @@ const App = () => {
       <main className="w-full h-full pt-[var(--header-height)]">
         <section id="main" className="w-full h-full p-5 flex">
           <div className="w-1/2 h-full"></div>
-          <Illustration {...{ data: curves }}/>
+          <Illustration {...{ curves }}/>
         </section>
       </main>
     </>
