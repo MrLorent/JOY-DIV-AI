@@ -11,7 +11,7 @@ import Illustration from "./components/illustration";
 
 const App = () => {
   /*====== ATTRIBUTS ======*/
-  const [noise_data, set_noise_data] = useState(null);
+  const [curves, set_curves] = useState(null);
   const loaded = useRef(false);
 
   /*====== METHODS ======*/
@@ -19,12 +19,13 @@ const App = () => {
     const data = await submit_text();
     const options = {
       chart: {
-      animations: {
-          enabled: false,
-      },
-      height: "150px",
-      type: "area",
-      width: "700px",
+        id: "temp_chart",
+        animations: {
+            enabled: false,
+        },
+        height: "150px",
+        type: "area",
+        width: "500px",
       },
       colors: ['#ffffff'],
       dataLabels: {
@@ -43,7 +44,7 @@ const App = () => {
       },
       series: [
       {
-          data: data[0].data,
+          data: [],
       }
       ],
       stroke: {
@@ -52,7 +53,7 @@ const App = () => {
       width: 2,
       },
       xaxis: {
-      categories: data[0].categories,
+      categories: [],
       labels: {
           show: false,
       },
@@ -63,12 +64,30 @@ const App = () => {
       },
       },
     };
-
     const apexchart = new ApexCharts(document.getElementById("chart"), options);
     await apexchart.render();
-    const curve = apexchart.ctx.exports.getSvgString();
+    
+    let svg_curves = [];
+    
+    for(let i in data)
+    {
+      // Change x axis data
+      apexchart.updateOptions({
+        xaxis: {
+          categories: data[i].categories
+        }
+      });
+      
+      // Change data values
+      apexchart.updateSeries([{
+        data: data[i].data
+      }]);
+  
+      // Save the current chart as SVG
+      svg_curves.push(apexchart.ctx.exports.getSvgString());
+    }
     apexchart.destroy();
-    set_noise_data([curve]);
+    set_curves(svg_curves);
   };
 
   /*======== HOOK ========*/
@@ -90,7 +109,7 @@ const App = () => {
       <main className="w-full h-full pt-[var(--header-height)]">
         <section id="main" className="w-full h-full p-5 flex">
           <div className="w-1/2 h-full"></div>
-          <Illustration {...{ data: noise_data }}/>
+          <Illustration {...{ data: curves }}/>
         </section>
       </main>
     </>
