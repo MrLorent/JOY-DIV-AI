@@ -4,7 +4,6 @@ import ApexCharts from "apexcharts";
 
 // COMPONENTS
 import Header from "./components/header"
-import LineChart from "./components/line_chart";
 
 const App = () => {
   /*====== ATTRIBUTS ======*/
@@ -25,9 +24,9 @@ const App = () => {
               animations: {
                 enabled: false,
               },
-              height: "250px",
+              height: "150px",
               type: "area",
-              width: "600px",
+              width: "700px",
             },
             colors: ['#ffffff'],
             dataLabels: {
@@ -52,7 +51,7 @@ const App = () => {
             stroke: {
               curve: 'smooth',
               lineCap: "round",
-              width: 3,
+              width: 2,
             },
             xaxis: {
               categories: raw_data.categories,
@@ -89,7 +88,6 @@ const App = () => {
       {/* MAIN */}
       <main className="w-full h-full pt-[var(--header-height)]">
         <section id="main" className="w-full h-full p-5">
-          <LineChart {...{ data }}/>
           <div dangerouslySetInnerHTML={{__html: svg}}></div>
         </section>
       </main>

@@ -32,16 +32,6 @@ const LineChart = ({ data }) => {
             lineCap: "round",
             width: 3,
           },
-          xaxis: {
-            labels: {
-              show: false,
-            },
-          },
-          yaxis: {
-            labels: {
-              show: false,
-            },
-          },
         },
       };
 
