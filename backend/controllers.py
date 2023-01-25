@@ -1,5 +1,4 @@
 # CONTROLLERS
-from flask import jsonify
 from collections import defaultdict
 
 # CONSTANTS IMPORTS
@@ -20,7 +19,7 @@ def parse_string(string):
     response = compute_circuits(circuits)
     
 
-    # format data for from
+    #===== formating data for front =====#
     parsed_string = defaultdict(int)
     for letter in response:
         for key in letter:
@@ -28,16 +27,31 @@ def parse_string(string):
 
     categories = []
     data = []
+    nb_extremities_values = int(len(parsed_string) * 0.2)
+
+    # flattening begining
+    for i in range(nb_extremities_values):
+        categories.append("aestetic_value")
+        data.append(0)
+
+    # registering real values
     for key in parsed_string:
         categories.append(key)
         data.append(parsed_string[key])
 
-    json_parsed_string = {
-        "categories": categories,
-        "data": data
-    }
+    # flattening end
+    for i in range(nb_extremities_values):
+        categories.append("aestetic_value")
+        data.append(0)
 
-    return jsonify(json_parsed_string)
+    json_parsed_string = [
+        {
+            "categories": categories,
+            "data": data
+        }
+    ]
+
+    return json_parsed_string
 
 def parse_word(word):
     return parse_string(word)
