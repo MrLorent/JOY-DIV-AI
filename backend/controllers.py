@@ -44,10 +44,12 @@ def parse_string(string):
         categories.append("aestetic_value")
         data.append(0)
 
-    json_parsed_string = {
-        "categories": categories,
-        "data": data
-    }
+    json_parsed_string = [
+        {
+            "categories": categories,
+            "data": data
+        }
+    ]
 
     return json_parsed_string
 

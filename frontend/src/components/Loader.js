@@ -3,7 +3,7 @@ const Loader = () => {
       <div className="bg-background w-full h-full flex justify-center items-center absolute top-0 right-0 z-1000">
         {/* By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL */}
         <svg
-          className="w-16 h-16 stroke-secondary-0"
+          className="w-16 h-16 stroke-primary"
           viewBox="0 0 44 44"
           xmlns="http://www.w3.org/2000/svg"
         >

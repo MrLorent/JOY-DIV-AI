@@ -1,5 +1,5 @@
 # ROUTER
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
 # CONTROLLERS IMPORTS
@@ -9,10 +9,16 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-# API Route
-@app.route("/parse_word")
+# API Routes
+@app.route("/submit/text", methods=['POST'])
 @cross_origin()
-def parse_word_call():
+def get_text_noise():
+    text = request.form['text']
+    return jsonify(parse_word(text)), 200
+
+@app.route("/example/word")
+@cross_origin()
+def get_word_noise_example():
     return jsonify(parse_word("Toronto")), 200
 
 
