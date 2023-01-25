@@ -8,7 +8,7 @@ from constants import NB_QUBITS
 from models import compute_circuits
 
 # OTHER IMPORTS
-from utils import string_to_byte_list
+from utils import string_to_byte_list, sort_dictionary_by_key
 from qiskit_functions import prepare_quantum_circuit
 
 def parse_string(string):
@@ -18,6 +18,45 @@ def parse_string(string):
 
     response = compute_circuits(circuits)
     
+    return response
+
+def parse_word(word):
+    response = parse_string(word)
+
+    #===== formating data for front =====#
+    json_parsed_string = []
+
+    for letter in response:
+        categories = []
+        data = []
+        
+        letter = sort_dictionary_by_key(letter)
+        nb_extremities_values = int(len(letter) * 0.3)
+
+        # flattening begining
+        for i in range(nb_extremities_values):
+            categories.append("aestetic_value")
+            data.append(0)
+
+        # registering real values
+        for key in letter:
+            categories.append(key)
+            data.append(letter[key])
+
+        # flattening end
+        for i in range(nb_extremities_values):
+            categories.append("aestetic_value")
+            data.append(0)
+
+        json_parsed_string.append({
+            "categories": categories,
+            "data": data
+        })
+    
+    return json_parsed_string
+
+def parse_sentence(sentence):
+    response = parse_string(sentence)
 
     #===== formating data for front =====#
     parsed_string = defaultdict(int)
@@ -51,7 +90,4 @@ def parse_string(string):
         }
     ]
 
-    return json_parsed_string
-
-def parse_word(word):
-    return parse_string(word)
+    return json_parsed_string 

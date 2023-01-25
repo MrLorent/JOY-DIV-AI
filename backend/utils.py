@@ -1,5 +1,8 @@
 # UTILS
 
+def sort_dictionary_by_key(dictionary):
+    return dict(sorted(dictionary.items(), key=lambda item: int(item[0])))
+
 def string_to_byte_list(word, nb_qubits) :
         #convert text to binary
         a_byte_array = bytearray(word, "utf8")

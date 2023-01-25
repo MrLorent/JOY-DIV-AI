@@ -15,9 +15,13 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def get_text_noise():
     text = request.form['text']
     
-    
-
-    return jsonify(parse_word(text)), 200
+    if("\n" in text):
+        print("\n", text, "contains new lines")
+    elif(" " in text):
+        print("\n", text, "contains spaces\n")
+    else:
+        print("\n", text, "is just a word\n")
+        return jsonify(parse_word(text)), 200
 
 @app.route("/example/word")
 @cross_origin()
