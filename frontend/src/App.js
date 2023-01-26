@@ -19,6 +19,8 @@ const App = () => {
     const data = await submit_text();
     const svg_curves = await generate_svg_curves(data);
 
+    console.log(data);
+
     set_curves(svg_curves);
   };
 
@@ -35,39 +37,44 @@ const App = () => {
       },
       colors: ['#ffffff'],
       dataLabels: {
-      enabled: false,
+        enabled: false,
       },
       fill: {
-      colors: ['#000000'],
-      opacity: 1,
-      type: 'solid',
+        colors: ['#000000'],
+        opacity: 1,
+        type: 'solid',
       },
       grid: {
-      show: false,
+        show: false,
       },
       legend: {
-      show: false,
+        show: false,
+      },
+      plotOptions: {
+          area: {
+              fillTo: 'end',
+          }
       },
       series: [
-      {
-          data: [],
-      }
+        {
+            data: [],
+        }
       ],
       stroke: {
-      curve: 'smooth',
-      lineCap: "round",
-      width: 2,
+        curve: 'smooth',
+        lineCap: "round",
+        width: 2,
       },
       xaxis: {
       categories: [],
-      labels: {
-          show: false,
-      },
+        labels: {
+            show: false,
+        },
       },
       yaxis: {
-      labels: {
-          show: false,
-      },
+        labels: {
+            show: false,
+        },
       },
     };
     const apexchart = new ApexCharts(document.getElementById("chart"), options);
