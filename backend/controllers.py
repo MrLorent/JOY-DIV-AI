@@ -57,11 +57,9 @@ def parse_word_by_letters(word):
 
 def parse_text(text):
     json_parsed_string = []
-    print("text :", text)
+
     for sub_text in text:
-        print("\nStarting parse of :", sub_text)
         response = parse_string(sub_text)
-        print("result :", response, "\n")
 
         #===== formating data for front =====#
         parsed_string = defaultdict(int)

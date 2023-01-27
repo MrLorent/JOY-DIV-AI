@@ -1,51 +1,73 @@
 // LIBRARIES
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ApexCharts from "apexcharts";
 
 // COMPONENTS
 import Header from "./components/header"
 
 // API CALLS
-import { submit_text } from "./services/api/requests";
+import { submit_text, submit_prompt } from "./services/api/requests";
 import Illustration from "./components/illustration";
 import PoemForm from "./components/poem_form";
+import OpenAIForm from "./components/OpenAIForm";
 
 const App = () => {
   /*====== ATTRIBUTS ======*/
+  const [generated_poem, set_generated_poem] = useState("");
+  const [parsed_poem, set_parsed_poem] = useState(null);
+  const [curve, set_curve] = useState(null);
   const [curves, set_curves] = useState(null);
+  const [nb_curves, set_nb_curves] = useState(0);
+  const [curves_idx, set_curves_idx]= useState(0);
 
   /*====== METHODS ======*/
+  const fetch_poem = async (prompt) => {
+    const poem = await submit_prompt(prompt);
+    set_generated_poem(poem);
+  };
+
   const fetch_text_noise = async (poem) => {
     set_curves("loading");
-    const parsed_poem = parse_poem(poem);
+    const new_parsed_poem = parse_poem(poem);
+    set_parsed_poem(new_parsed_poem);
+
+    const endpoint = new_parsed_poem.length === 1 ? "word" : "text";
+    set_nb_curves(new_parsed_poem.length);
+    set_curves_idx(0);
+
+    console.log(nb_curves, curves_idx);
+
+    const data = await submit_text([new_parsed_poem[0]], endpoint);
+    const svg_curves = await generate_svg_curves(data);
+    set_curve(svg_curves);
+  };
+
+  const fetch_next_curve = async (next_idx) => {
+    console.log("next_curve called");
     const endpoint = parsed_poem.length === 1 ? "word" : "text";
 
-    console.log(parsed_poem);
-    const data = await submit_text(parsed_poem, endpoint);
+    const data = await submit_text([parsed_poem[next_idx]], endpoint);
     const svg_curves = await generate_svg_curves(data);
-    set_curves(svg_curves);
+    set_curve(svg_curves);
   };
 
   const parse_poem = (poem) => {
-    if(poem.includes("\n"))
+    while(poem[0] === "\n" || poem[0] === " ") poem = poem.slice(1);
+
+    if(!poem.includes("\n"))
     {
-        const sentences = poem.split("\n").map(sentence => sentence.split(' ').join('_'));
-        return sentences;
-    }
-    else if(poem.includes("."))
-    {
-        const sentences = poem.split(".").map(sentence => sentence.split(' ').join('_'));
-        return sentences;
-    }
-    else if(poem.includes(" "))
-    {
-        const words = poem.split(" ");
-        return words;
+      poem  =   poem.replace(/[,.']/g, "")    // remove commas, dots, and apostrophes
+                    .split(" ")               // split sentences into separated words
     }
     else
     {
-        return [poem];
+      poem  =   poem.replace(/[,.']/g, "")    // remove commas, dots, and apostrophes
+                    .replace(/\n{2,}/g,"\n")  // replace multiple line breaks to simple one
+                    .split(" ").join("_")     // replace space by underscores
+                    .split("\n");             // split text into separated sentences
     }
+    
+    return poem;
   };
 
   const generate_svg_curves = async (data) => {
@@ -128,6 +150,26 @@ const App = () => {
     return svg_curves;
   };
 
+  /*====== HOOKS ======*/
+  useEffect(() => {
+    if(!curve) return;
+
+    set_curves([
+      ...curves === "loading" || null ? [] : curves,
+      ...curve
+    ]);
+  }, [curve])
+
+  useEffect(() => {
+    if(curves === "loading" || null) return;
+
+    set_curves_idx(curves_idx + 1);
+    console.log("curves updated : ", nb_curves, " ", curves_idx);
+
+    if(curves_idx + 1 < nb_curves) fetch_next_curve(curves_idx + 1);
+
+  }, [curves])
+
   /*======== RENDERER ========*/
   return (
     <>
@@ -137,8 +179,17 @@ const App = () => {
       {/* MAIN */}
       <main className="w-full h-full pt-[var(--header-height)]">
         <section id="main" className="w-full h-full p-5 flex">
-          <PoemForm {...{ send_poem: fetch_text_noise }}/>
-          <Illustration {...{ curves }}/>
+
+          {/* POEM INPUTS */}
+          <div className="w-1/2 h-full pr-2 flex flex-col">
+            <OpenAIForm {...{ send_prompt: fetch_poem }}/>
+            <PoemForm {...{ generated_poem: generated_poem, send_poem: fetch_text_noise }}/>
+          </div>
+
+          {/* ILLUSTRATION */}
+          <div className="w-1/2 h-full flex pl-2 justify-center items-center overflow-x-hidden overflow-y-auto relative">
+            <Illustration {...{ curves }}/>
+          </div>
         </section>
       </main>
     </>
