@@ -28,23 +28,22 @@ const App = () => {
     const parsed_poem = parse_poem(poem);
     const endpoint = parsed_poem.length === 1 ? "word" : "text";
 
-    // if(endpoint === "word")
-    // {
+    if(endpoint === "word")
+    {
       const data = await submit_text(parsed_poem, endpoint);
       const svg_curves = await generate_svg_curves(data);
       set_curves(svg_curves);
-    // }
-    // else
-    // {
-    //   parsed_poem.forEach(async (string) => {
-    //     console.log(string);
-    //     submit_text([string], endpoint).then(async (data) => {
-    //       const svg_curves = await generate_svg_curves(data);
+    }
+    else
+    {
+      parsed_poem.forEach(async (string) => {
+        submit_text([string], endpoint).then(async (data) => {
+          const svg_curves = await generate_svg_curves(data);
           
-    //       set_curve(svg_curves);
-    //     });
-    //   });
-    // }
+          set_curve(svg_curves);
+        });
+      });
+    }
   };
 
   const parse_poem = (poem) => {
@@ -63,8 +62,6 @@ const App = () => {
                     .split("\n");             // split text into separated sentences
     }
     
-    console.log(poem);
-
     return poem;
   };
 

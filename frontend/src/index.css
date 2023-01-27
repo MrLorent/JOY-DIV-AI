@@ -69,6 +69,14 @@
         margin: theme("margin.0");
     }
 
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    #root::-webkit-scrollbar,
+    main::-webkit-scrollbar
+    {
+        width: 0;
+    }
+
     form
     {
         margin: 0;
@@ -79,27 +87,21 @@
         font-size: theme("fontSize.sm");
         text-transform: uppercase;
         letter-spacing: 0.1em;
+        border-width: 1px;
+        border-style: solid;
+        border-color: theme("borderColor.primary");
         width: theme("width.fit");
         position: relative;
-        margin: theme("margin.5") 0 theme("margin.3") 0;
+        padding: theme("padding.3");
+        margin: theme("margin.5") 0 0 0;
+        transition: 0.25s ease-in;
     }
 
-    button::before
+    button:hover
     {
-        content: "";
-        background: theme("colors.primary");
-        width: 100%;
-        height: 1px;
-        position: absolute;
-        bottom: -2.5;
-        left: 0;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: 0.4s cubic-bezier(.76,0,.3,1);
-    }
-
-    button:hover::before
-    {
-        transform: scaleX(1);
+        color: theme("colors.background");
+        background-color: theme("colors.primary");
+        transition: 0.25s ease-out;
+        
     }
 }

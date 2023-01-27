@@ -45,6 +45,7 @@ const PoemForm = ({ generated_poem, send_poem }) => {
     /*======== RENDERER ========*/
     return (
         <form className="flex-auto flex flex-col" onSubmit={handle_submit}>
+            <label for="poem" className="mb-3">Your poem :</label>
             <textarea
                 ref={poem_input}
                 id="poem"

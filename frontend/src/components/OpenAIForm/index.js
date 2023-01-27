@@ -17,7 +17,8 @@ const OpenAIForm = ({ send_prompt }) => {
 
     /*======== RENDERER ========*/
     return (
-        <form className="w-full h-1/3 flex flex-col" onSubmit={handle_submit}>
+        <form className="w-full h-1/4 mb-5 flex flex-col" onSubmit={handle_submit}>
+            <label for="prompt" className="mb-3">Prompt for poem generation :</label>
             <textarea
                 id="prompt"
                 name="prompt"
