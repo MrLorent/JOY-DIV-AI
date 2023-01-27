@@ -9,24 +9,21 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-# API Routes
+#=============== ROUTES ===============#
+
+#--------------- WORD ---------------#
 @app.route("/submit/word", methods=['POST'])
 @cross_origin()
 def parse_word():
-    word = request.form['text']
-    return jsonify(parse_word_by_letters(word)), 200
+    word = request.json.get("parsed_poem", None)
+    return jsonify(parse_word_by_letters(word[0])), 200
 
+#--------------- TEXT ---------------#
 @app.route("/submit/text", methods=['POST'])
 @cross_origin()
 def parse_text_by_sentences_or_words():
-    text = request.form['text']
-    print(text)
+    text = request.json.get("parsed_poem", None)
     return jsonify(parse_text(text)), 200
-
-@app.route("/example/word")
-@cross_origin()
-def parse_word_example():
-    return jsonify(parse_word("Toronto")), 200
 
 
 if __name__ == "__main__":
