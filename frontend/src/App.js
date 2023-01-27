@@ -14,8 +14,11 @@ import OpenAIForm from "./components/OpenAIForm";
 const App = () => {
   /*====== ATTRIBUTS ======*/
   const [generated_poem, set_generated_poem] = useState("");
+  const [parsed_poem, set_parsed_poem] = useState(null);
   const [curve, set_curve] = useState(null);
   const [curves, set_curves] = useState(null);
+  const [nb_curves, set_nb_curves] = useState(0);
+  const [curves_idx, set_curves_idx]= useState(0);
 
   /*====== METHODS ======*/
   const fetch_poem = async (prompt) => {
@@ -25,25 +28,27 @@ const App = () => {
 
   const fetch_text_noise = async (poem) => {
     set_curves("loading");
-    const parsed_poem = parse_poem(poem);
+    const new_parsed_poem = parse_poem(poem);
+    set_parsed_poem(new_parsed_poem);
+
+    const endpoint = new_parsed_poem.length === 1 ? "word" : "text";
+    set_nb_curves(new_parsed_poem.length);
+    set_curves_idx(0);
+
+    console.log(nb_curves, curves_idx);
+
+    const data = await submit_text([new_parsed_poem[0]], endpoint);
+    const svg_curves = await generate_svg_curves(data);
+    set_curve(svg_curves);
+  };
+
+  const fetch_next_curve = async (next_idx) => {
+    console.log("next_curve called");
     const endpoint = parsed_poem.length === 1 ? "word" : "text";
 
-    if(endpoint === "word")
-    {
-      const data = await submit_text(parsed_poem, endpoint);
-      const svg_curves = await generate_svg_curves(data);
-      set_curves(svg_curves);
-    }
-    else
-    {
-      parsed_poem.forEach(async (string) => {
-        submit_text([string], endpoint).then(async (data) => {
-          const svg_curves = await generate_svg_curves(data);
-          
-          set_curve(svg_curves);
-        });
-      });
-    }
+    const data = await submit_text([parsed_poem[next_idx]], endpoint);
+    const svg_curves = await generate_svg_curves(data);
+    set_curve(svg_curves);
   };
 
   const parse_poem = (poem) => {
@@ -145,6 +150,7 @@ const App = () => {
     return svg_curves;
   };
 
+  /*====== HOOKS ======*/
   useEffect(() => {
     if(!curve) return;
 
@@ -152,8 +158,17 @@ const App = () => {
       ...curves === "loading" || null ? [] : curves,
       ...curve
     ]);
-
   }, [curve])
+
+  useEffect(() => {
+    if(curves === "loading" || null) return;
+
+    set_curves_idx(curves_idx + 1);
+    console.log("curves updated : ", nb_curves, " ", curves_idx);
+
+    if(curves_idx + 1 < nb_curves) fetch_next_curve(curves_idx + 1);
+
+  }, [curves])
 
   /*======== RENDERER ========*/
   return (
