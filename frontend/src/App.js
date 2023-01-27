@@ -28,51 +28,44 @@ const App = () => {
     const parsed_poem = parse_poem(poem);
     const endpoint = parsed_poem.length === 1 ? "word" : "text";
 
-    if(endpoint === "word")
-    {
-      console.log(parsed_poem);
+    // if(endpoint === "word")
+    // {
       const data = await submit_text(parsed_poem, endpoint);
       const svg_curves = await generate_svg_curves(data);
       set_curves(svg_curves);
-    }
-    else
-    {
-      parsed_poem.forEach(async (string) => {
-        console.log(string);
-        submit_text([string], endpoint).then(async (data) => {
-          const svg_curves = await generate_svg_curves(data);
+    // }
+    // else
+    // {
+    //   parsed_poem.forEach(async (string) => {
+    //     console.log(string);
+    //     submit_text([string], endpoint).then(async (data) => {
+    //       const svg_curves = await generate_svg_curves(data);
           
-          set_curve(svg_curves);
-        });
-      });
-    }
+    //       set_curve(svg_curves);
+    //     });
+    //   });
+    // }
   };
 
   const parse_poem = (poem) => {
-    if(poem.includes("'"))
+    while(poem[0] === "\n" || poem[0] === " ") poem = poem.slice(1);
+
+    if(!poem.includes("\n"))
     {
-      poem = poem.split("'").join("_");
-    }
-    
-    if(poem.includes("\n"))
-    {
-        const sentences = poem.split("\n").map(sentence => sentence.split(' ').join('_'));
-        return sentences;
-    }
-    else if(poem.includes("."))
-    {
-        const sentences = poem.split(".").map(sentence => sentence.split(' ').join('_'));
-        return sentences;
-    }
-    else if(poem.includes(" "))
-    {
-        const words = poem.split(" ");
-        return words;
+      poem  =   poem.replace(/[,.']/g, "")    // remove commas, dots, and apostrophes
+                    .split(" ")               // split sentences into separated words
     }
     else
     {
-        return [poem];
+      poem  =   poem.replace(/[,.']/g, "")    // remove commas, dots, and apostrophes
+                    .replace(/\n{2,}/g,"\n")  // replace multiple line breaks to simple one
+                    .split(" ").join("_")     // replace space by underscores
+                    .split("\n");             // split text into separated sentences
     }
+    
+    console.log(poem);
+
+    return poem;
   };
 
   const generate_svg_curves = async (data) => {

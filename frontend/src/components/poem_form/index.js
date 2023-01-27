@@ -23,6 +23,10 @@ const PoemForm = ({ generated_poem, send_poem }) => {
         {
             window.alert("ERROR : You're poem is to long. The limit is " + MAX_CHARACTERS + " caracteres.");
         }
+        else if(!poem.includes("\n") && (poem.count(".") > 1 && poem.count(",") > 1))
+        {
+            window.alert("ERROR: Please, use line breaks to correctly indent your master piece.")
+        }
         else
         {
             send_poem(poem);
@@ -34,6 +38,7 @@ const PoemForm = ({ generated_poem, send_poem }) => {
         if(!generated_poem) return
 
         poem_input.current.value = generated_poem;
+        set_poem(generated_poem);
 
     }, [generated_poem]);
 
