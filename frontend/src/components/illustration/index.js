@@ -5,7 +5,7 @@ import Loader from "../Loader"
 const Illustration = ({ curves }) => {
     /*======== RENDERER ========*/
     return (
-        <div className="w-1/2 h-full flex justify-center items-center overflow-auto relative">
+        <div className="w-1/2 h-full flex pr-2 justify-center items-center overflow-auto relative">
             {
                 curves === null ?
                     <div className="w-fit h-fit flex flex-col items-center">

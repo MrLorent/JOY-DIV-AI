@@ -76,8 +76,30 @@
 
     button
     {
+        font-size: theme("fontSize.sm");
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
         width: theme("width.fit");
-        padding: theme("padding.3");
-        margin: theme("margin.3") 0 0 0;
+        position: relative;
+        margin: theme("margin.5") 0 theme("margin.3") 0;
+    }
+
+    button::before
+    {
+        content: "";
+        background: theme("colors.primary");
+        width: 100%;
+        height: 1px;
+        position: absolute;
+        bottom: -2.5;
+        left: 0;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: 0.4s cubic-bezier(.76,0,.3,1);
+    }
+
+    button:hover::before
+    {
+        transform: scaleX(1);
     }
 }

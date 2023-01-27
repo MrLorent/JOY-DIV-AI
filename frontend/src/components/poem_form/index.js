@@ -16,7 +16,7 @@ const PoemForm = ({ send_poem }) => {
 
     /*======== RENDERER ========*/
     return (
-        <div className="w-1/2 h-full">
+        <div className="w-1/2 h-full pl-2">
             <form className="w-full h-full grow flex flex-col" onSubmit={handle_submit}>
                 <textarea
                     id="poem"
