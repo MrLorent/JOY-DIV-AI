@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 const PoemForm = ({ generated_poem, send_poem }) => {
     /*======== ATTRIBUTS ========*/
+    const MAX_CHARACTERS = 2500; 
     const [poem, set_poem] = useState("");
     const poem_input = useRef(null);
 
@@ -18,9 +19,9 @@ const PoemForm = ({ generated_poem, send_poem }) => {
         {
             window.alert("ERROR : There's no poem to send");
         }
-        else if(poem.length > 500)
+        else if(poem.length > MAX_CHARACTERS)
         {
-            window.alert("ERROR : You're poem is to long. The limit is " + 500 + " caracteres.");
+            window.alert("ERROR : You're poem is to long. The limit is " + MAX_CHARACTERS + " caracteres.");
         }
         else
         {
@@ -43,7 +44,7 @@ const PoemForm = ({ generated_poem, send_poem }) => {
                 ref={poem_input}
                 id="poem"
                 name="poem"
-                maxLength="500"
+                maxLength={MAX_CHARACTERS}
                 placeholder="Demain dès l'aube..."
                 className="w-full h-full px-2 py-1 resize-none bg-background border border-tertiary rounded-lg focus:outline-none focus:border-primary"
                 onChange={handle_change}

@@ -34,7 +34,10 @@ export async function submit_prompt(prompt)
         presence_penalty: 0,
     });
 
-    const poem = await response.json();
+    let poem = response.data.choices[0].text;
+
+    // Clean response
+    while(poem[0] === "\n") poem = poem.slice(1);
 
     return poem;
 }
