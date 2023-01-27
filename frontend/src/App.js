@@ -6,7 +6,7 @@ import ApexCharts from "apexcharts";
 import Header from "./components/header"
 
 // API CALLS
-import { submit_text } from "./services/api/requests";
+import { submit_text, submit_prompt } from "./services/api/requests";
 import Illustration from "./components/illustration";
 import PoemForm from "./components/poem_form";
 import OpenAIForm from "./components/OpenAIForm";
@@ -18,6 +18,11 @@ const App = () => {
   const [curves, set_curves] = useState(null);
 
   /*====== METHODS ======*/
+  const fetch_poem = async (prompt) => {
+    const poem = await submit_prompt(prompt);
+    set_generated_poem(poem);
+  };
+
   const fetch_text_noise = async (poem) => {
     set_curves("loading");
     const parsed_poem = parse_poem(poem);
@@ -172,7 +177,7 @@ const App = () => {
 
           {/* POEM INPUTS */}
           <div className="w-1/2 h-full pr-2 flex flex-col">
-            <OpenAIForm {...{ set_generated_poem: set_generated_poem }}/>
+            <OpenAIForm {...{ send_prompt: fetch_poem }}/>
             <PoemForm {...{ generated_poem: generated_poem, send_poem: fetch_text_noise }}/>
           </div>
 
