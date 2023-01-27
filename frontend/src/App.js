@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ApexCharts from "apexcharts";
 
 // COMPONENTS
@@ -9,9 +9,12 @@ import Header from "./components/header"
 import { submit_text } from "./services/api/requests";
 import Illustration from "./components/illustration";
 import PoemForm from "./components/poem_form";
+import OpenAIForm from "./components/OpenAIForm";
 
 const App = () => {
   /*====== ATTRIBUTS ======*/
+  const [generated_poem, set_generated_poem] = useState("");
+  const [curve, set_curve] = useState(null);
   const [curves, set_curves] = useState(null);
 
   /*====== METHODS ======*/
@@ -20,13 +23,32 @@ const App = () => {
     const parsed_poem = parse_poem(poem);
     const endpoint = parsed_poem.length === 1 ? "word" : "text";
 
-    console.log(parsed_poem);
-    const data = await submit_text(parsed_poem, endpoint);
-    const svg_curves = await generate_svg_curves(data);
-    set_curves(svg_curves);
+    if(endpoint === "word")
+    {
+      console.log(parsed_poem);
+      const data = await submit_text(parsed_poem, endpoint);
+      const svg_curves = await generate_svg_curves(data);
+      set_curves(svg_curves);
+    }
+    else
+    {
+      parsed_poem.forEach(async (string) => {
+        console.log(string);
+        submit_text([string], endpoint).then(async (data) => {
+          const svg_curves = await generate_svg_curves(data);
+          
+          set_curve(svg_curves);
+        });
+      });
+    }
   };
 
   const parse_poem = (poem) => {
+    if(poem.includes("'"))
+    {
+      poem = poem.split("'").join("_");
+    }
+    
     if(poem.includes("\n"))
     {
         const sentences = poem.split("\n").map(sentence => sentence.split(' ').join('_'));
@@ -128,6 +150,16 @@ const App = () => {
     return svg_curves;
   };
 
+  useEffect(() => {
+    if(!curve) return;
+
+    set_curves([
+      ...curves === "loading" || null ? [] : curves,
+      ...curve
+    ]);
+
+  }, [curve])
+
   /*======== RENDERER ========*/
   return (
     <>
@@ -137,8 +169,17 @@ const App = () => {
       {/* MAIN */}
       <main className="w-full h-full pt-[var(--header-height)]">
         <section id="main" className="w-full h-full p-5 flex">
-          <PoemForm {...{ send_poem: fetch_text_noise }}/>
-          <Illustration {...{ curves }}/>
+
+          {/* POEM INPUTS */}
+          <div className="w-1/2 h-full pr-2 flex flex-col">
+            <OpenAIForm {...{ set_generated_poem: set_generated_poem }}/>
+            <PoemForm {...{ generated_poem: generated_poem, send_poem: fetch_text_noise }}/>
+          </div>
+
+          {/* ILLUSTRATION */}
+          <div className="w-1/2 h-full flex pl-2 justify-center items-center overflow-x-hidden overflow-y-auto relative">
+            <Illustration {...{ curves }}/>
+          </div>
         </section>
       </main>
     </>

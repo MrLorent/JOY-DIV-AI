@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const PoemForm = ({ send_poem }) => {
-    /*======== METHODS ========*/
+const PoemForm = ({ generated_poem, send_poem }) => {
+    /*======== ATTRIBUTS ========*/
     const [poem, set_poem] = useState("");
+    const poem_input = useRef(null);
 
     /*======== METHODS ========*/
     const handle_change = (event) => {
@@ -26,23 +27,30 @@ const PoemForm = ({ send_poem }) => {
         }
     };
 
+    /*======== METHODS ========*/
+    useEffect(() => {
+        if(!generated_poem) return
+
+        poem_input.current.value = generated_poem;
+
+    }, [generated_poem]);
+
     /*======== RENDERER ========*/
     return (
-        <div className="w-1/2 h-full pr-2 flex flex-col">
-            <form className="flex-auto flex flex-col" onSubmit={handle_submit}>
-                <textarea
-                    id="poem"
-                    name="poem"
-                    maxLength="500"
-                    placeholder="Demain dès l'aube..."
-                    className="w-full h-full px-2 py-1 resize-none bg-background border border-tertiary rounded-lg focus:outline-none focus:border-primary"
-                    onChange={handle_change}
-                >
+        <form className="flex-auto flex flex-col" onSubmit={handle_submit}>
+            <textarea
+                ref={poem_input}
+                id="poem"
+                name="poem"
+                maxLength="500"
+                placeholder="Demain dès l'aube..."
+                className="w-full h-full px-2 py-1 resize-none bg-background border border-tertiary rounded-lg focus:outline-none focus:border-primary"
+                onChange={handle_change}
+            >
 
-                </textarea>
-                <button type="submit">Illustrate Poem</button>
-            </form>
-        </div>
+            </textarea>
+            <button type="submit">Illustrate Poem</button>
+        </form>
     );
 }
 

@@ -1,5 +1,5 @@
 const OpenAIForm = ({ send_prompt }) => {
-    return;
+    return <></>;
 }
 
 export default OpenAIForm;
