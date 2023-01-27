@@ -1,10 +1,10 @@
-export async function submit_text(text)
+export async function submit_text(text, endpoint)
 {
     let form_data = new FormData();
 
     form_data.append("text", text);
 
-    const response = await fetch('http://127.0.0.1:5000/submit/text',  {
+    const response = await fetch('http://127.0.0.1:5000/submit/' + endpoint,  {
         method: 'POST',
         body: form_data,
     });

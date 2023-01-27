@@ -15,12 +15,48 @@ const App = () => {
   const [curves, set_curves] = useState(null);
 
   /*====== METHODS ======*/
-  const fetch_text_noise = async (text) => {
-    set_curves("loading");
-    const data = await submit_text(text);
-    const svg_curves = await generate_svg_curves(data);
+  const fetch_text_noise = async (poem) => {
+    set_curves([]);
+    const parsed_poem = parse_poem(poem);
 
-    set_curves(svg_curves);
+    if(parsed_poem.length === 1)
+    {
+      const data = await submit_text(parsed_poem[0], "word");
+      const svg_curves = await generate_svg_curves(data);
+      set_curves(svg_curves);
+    }
+    else
+    {
+      parsed_poem.forEach(async (string) => {
+        const data = await submit_text(string, "text");
+        const svg_curves = await generate_svg_curves(data);
+        console.log("one by one");
+
+        set_curves(curves.concat(svg_curves));
+      });
+    }
+  };
+
+  const parse_poem = (poem) => {
+    if(poem.includes("\n"))
+    {
+        const sentences = poem.split("\n").map(sentence => sentence.split(' ').join('_'));
+        return sentences;
+    }
+    else if(poem.includes("."))
+    {
+        const sentences = poem.split(".").map(sentence => sentence.split(' ').join('_'));
+        return sentences;
+    }
+    else if(poem.includes(" "))
+    {
+        const words = poem.split(" ");
+        return words;
+    }
+    else
+    {
+        return [poem];
+    }
   };
 
   const generate_svg_curves = async (data) => {

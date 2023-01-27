@@ -20,7 +20,7 @@ def parse_string(string):
     
     return response
 
-def parse_word(word):
+def parse_word_by_letters(word):
     response = parse_string(word)
 
     #===== formating data for front =====#
@@ -55,8 +55,8 @@ def parse_word(word):
     
     return json_parsed_string
 
-def parse_sentence(sentence):
-    response = parse_string(sentence)
+def parse_text(text):
+    response = parse_string(text)
 
     #===== formating data for front =====#
     parsed_string = defaultdict(int)

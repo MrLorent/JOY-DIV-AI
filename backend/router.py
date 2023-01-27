@@ -3,29 +3,29 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
 # CONTROLLERS IMPORTS
-from controllers import parse_word
+from controllers import parse_word_by_letters, parse_text
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # API Routes
+@app.route("/submit/word", methods=['POST'])
+@cross_origin()
+def parse_word():
+    word = request.form['text']
+    return jsonify(parse_word_by_letters(word)), 200
+
 @app.route("/submit/text", methods=['POST'])
 @cross_origin()
-def get_text_noise():
+def parse_text_by_sentences_or_words():
     text = request.form['text']
-    
-    if("\n" in text):
-        print("\n", text, "contains new lines")
-    elif(" " in text):
-        print("\n", text, "contains spaces\n")
-    else:
-        print("\n", text, "is just a word\n")
-        return jsonify(parse_word(text)), 200
+    print(text)
+    return jsonify(parse_text(text)), 200
 
 @app.route("/example/word")
 @cross_origin()
-def get_word_noise_example():
+def parse_word_example():
     return jsonify(parse_word("Toronto")), 200
 
 
