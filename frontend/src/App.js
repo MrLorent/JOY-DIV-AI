@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import ApexCharts from "apexcharts";
 
 // COMPONENTS
@@ -8,18 +8,17 @@ import Header from "./components/header"
 // API CALLS
 import { submit_text } from "./services/api/requests";
 import Illustration from "./components/illustration";
+import PoemForm from "./components/poem_form";
 
 const App = () => {
   /*====== ATTRIBUTS ======*/
   const [curves, set_curves] = useState(null);
-  const loaded = useRef(false);
 
   /*====== METHODS ======*/
-  const fetch_text_noise = async () => {
-    const data = await submit_text();
+  const fetch_text_noise = async (text) => {
+    set_curves("loading");
+    const data = await submit_text(text);
     const svg_curves = await generate_svg_curves(data);
-
-    console.log(data);
 
     set_curves(svg_curves);
   };
@@ -104,15 +103,6 @@ const App = () => {
     return svg_curves;
   };
 
-  /*======== HOOK ========*/
-  useEffect(()=>{
-    if(loaded.current) return;
-
-    fetch_text_noise();
-
-    loaded.current = true;
-  }, []);
-
   /*======== RENDERER ========*/
   return (
     <>
@@ -122,7 +112,7 @@ const App = () => {
       {/* MAIN */}
       <main className="w-full h-full pt-[var(--header-height)]">
         <section id="main" className="w-full h-full p-5 flex">
-          <div className="w-1/2 h-full"></div>
+          <PoemForm {...{ send_poem: fetch_text_noise }}/>
           <Illustration {...{ curves }}/>
         </section>
       </main>
