@@ -12,7 +12,7 @@ const Illustration = ({ curves }) => {
                         <span>No poem to illustrate yet...</span>
                         <span className="m-3">［(－－)］zzzz</span>
                     </div>
-                : curves.length === 0 ?
+                : curves === "loading" ?
                     <Loader />
                 :
                     curves.map((curve, index) => <div key={index} className={"w-full h-fit flex justify-center absolute"} style={{"top": index * 15 }} dangerouslySetInnerHTML={{__html: curve}}></div>)

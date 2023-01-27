@@ -56,38 +56,44 @@ def parse_word_by_letters(word):
     return json_parsed_string
 
 def parse_text(text):
-    response = parse_string(text)
+    json_parsed_string = []
+    print("text :", text)
+    for sub_text in text:
+        print("\nStarting parse of :", sub_text)
+        response = parse_string(sub_text)
+        print("result :", response, "\n")
 
-    #===== formating data for front =====#
-    parsed_string = defaultdict(int)
-    for letter in response:
-        for key in letter:
-            parsed_string[key] += letter[key]
+        #===== formating data for front =====#
+        parsed_string = defaultdict(int)
+        for letter in response:
+            for key in letter:
+                parsed_string[key] += letter[key]
 
-    categories = []
-    data = []
-    nb_extremities_values = int(len(parsed_string) * 0.2)
+        categories = []
+        data = []
 
-    # flattening begining
-    for i in range(nb_extremities_values):
-        categories.append("aestetic_value")
-        data.append(0)
+        letter = sort_dictionary_by_key(letter)
+        nb_extremities_values = int(len(letter) * 0.3)
+        nb_extremities_values = int(len(parsed_string) * 0.2)
 
-    # registering real values
-    for key in parsed_string:
-        categories.append(key)
-        data.append(parsed_string[key])
+        # flattening begining
+        for i in range(nb_extremities_values):
+            categories.append("aestetic_value")
+            data.append(0)
 
-    # flattening end
-    for i in range(nb_extremities_values):
-        categories.append("aestetic_value")
-        data.append(0)
+        # registering real values
+        for key in parsed_string:
+            categories.append(key)
+            data.append(parsed_string[key])
 
-    json_parsed_string = [
-        {
+        # flattening end
+        for i in range(nb_extremities_values):
+            categories.append("aestetic_value")
+            data.append(0)
+
+        json_parsed_string.append({
             "categories": categories,
             "data": data
-        }
-    ]
+        })
 
-    return json_parsed_string 
+    return json_parsed_string

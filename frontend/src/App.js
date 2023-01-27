@@ -16,25 +16,14 @@ const App = () => {
 
   /*====== METHODS ======*/
   const fetch_text_noise = async (poem) => {
-    set_curves([]);
+    set_curves("loading");
     const parsed_poem = parse_poem(poem);
+    const endpoint = parsed_poem.length === 1 ? "word" : "text";
 
-    if(parsed_poem.length === 1)
-    {
-      const data = await submit_text(parsed_poem[0], "word");
-      const svg_curves = await generate_svg_curves(data);
-      set_curves(svg_curves);
-    }
-    else
-    {
-      parsed_poem.forEach(async (string) => {
-        const data = await submit_text(string, "text");
-        const svg_curves = await generate_svg_curves(data);
-        console.log("one by one");
-
-        set_curves(curves.concat(svg_curves));
-      });
-    }
+    console.log(parsed_poem);
+    const data = await submit_text(parsed_poem, endpoint);
+    const svg_curves = await generate_svg_curves(data);
+    set_curves(svg_curves);
   };
 
   const parse_poem = (poem) => {

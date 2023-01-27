@@ -1,12 +1,12 @@
 export async function submit_text(text, endpoint)
 {
-    let form_data = new FormData();
-
-    form_data.append("text", text);
-
     const response = await fetch('http://127.0.0.1:5000/submit/' + endpoint,  {
         method: 'POST',
-        body: form_data,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ parsed_poem : text }),
     });
 
     const noise = await response.json();
