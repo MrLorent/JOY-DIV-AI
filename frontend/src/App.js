@@ -178,16 +178,16 @@ const App = () => {
 
       {/* MAIN */}
       <main className="w-full h-full pt-[var(--header-height)]">
-        <section id="main" className="w-full h-full p-5 flex">
+        <section id="main" className="w-full h-full p-6 flex justify-between">
 
           {/* POEM INPUTS */}
-          <div className="w-1/2 h-full pr-2 flex flex-col">
+          <div className="w-[calc(50%_-_1.5rem_/_2)] h-full flex flex-col">
             <OpenAIForm {...{ send_prompt: fetch_poem }}/>
             <PoemForm {...{ generated_poem: generated_poem, send_poem: fetch_text_noise }}/>
           </div>
 
           {/* ILLUSTRATION */}
-          <div className="w-1/2 h-full flex pl-2 justify-center items-center overflow-x-hidden overflow-y-auto relative">
+          <div className="h-full flex grow justify-center ml-6 overflow-x-hidden overflow-y-auto border border-tertiary rounded-lg relative">
             <Illustration {...{ curves }}/>
           </div>
         </section>

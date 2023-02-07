@@ -5,7 +5,7 @@ import Loader from "../Loader"
 const Illustration = ({ curves }) => {
     /*======== RENDERER ========*/
     return (
-        <>
+        <div id="illustration" className="w-full h-full flex flex-col pt-28">
             {
                 curves === null ?
                     <div className="w-fit h-fit flex flex-col items-center">
@@ -15,9 +15,9 @@ const Illustration = ({ curves }) => {
                 : curves === "loading" ?
                     <Loader />
                 :
-                    curves.map((curve, index) => <div key={index} className={"w-full h-fit flex justify-center absolute"} style={{"top": index * 15 }} dangerouslySetInnerHTML={{__html: curve}}></div>)
+                    curves.map((curve, index) => <div key={index} className={"w-full h-5 flex justify-center items-end"} dangerouslySetInnerHTML={{__html: curve}}></div>)
             }
-        </>
+        </div>
     );
 };
 

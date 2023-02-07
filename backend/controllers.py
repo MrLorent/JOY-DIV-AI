@@ -71,7 +71,7 @@ def parse_text(text):
         data = []
 
         letter = sort_dictionary_by_key(letter)
-        nb_extremities_values = int(len(letter) * 0.3)
+        nb_extremities_values = int(len(letter) * 0.2)
         nb_extremities_values = int(len(parsed_string) * 0.2)
 
         # flattening begining

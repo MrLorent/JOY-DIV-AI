@@ -14,7 +14,7 @@
     --tertiary: var(--dark-grey);
 
     /*-------- SIZES --------*/
-    --header-height: 60px;
+    --header-height: 65px;
 }
 
 [data-theme="dark"]

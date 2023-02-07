@@ -9,7 +9,7 @@ const header = () => {
     // }   
 
     return (
-        <header className="w-full h-[var(--header-height)] flex items-center fixed top-0 px-5">
+        <header className="w-full h-[var(--header-height)] flex items-center fixed top-0 px-6">
             <h1>{">_ QUANTUN POETRY"}</h1>
         </header>
     );
