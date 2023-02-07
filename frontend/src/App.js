@@ -187,7 +187,7 @@ const App = () => {
           </div>
 
           {/* ILLUSTRATION */}
-          <div className="h-full flex grow justify-center ml-6 overflow-x-hidden overflow-y-auto border border-tertiary rounded-lg relative">
+          <div className="h-full flex grow justify-center p-5 ml-6 overflow-x-hidden overflow-y-auto border border-tertiary rounded-lg relative">
             <Illustration {...{ curves }}/>
           </div>
         </section>
