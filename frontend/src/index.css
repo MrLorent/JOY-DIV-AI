@@ -104,4 +104,59 @@
         transition: 0.25s ease-out;
         
     }
+
+    #illustration
+    {
+        scrollbar-width: thin;
+    }
+
+    #illustration::-webkit-scrollbar
+    {
+        width: 0;
+    }
+
+    .one-dot
+    {
+        overflow: hidden;
+        animation: display_one 4s infinite;
+    }
+
+    .two-dots
+    {
+        overflow: hidden;
+        animation: display_two 4s infinite;
+    }
+
+    .three-dots
+    {
+        overflow: hidden;
+        animation: display_three 4s infinite;
+    }
+
+    @keyframes display_one
+    {
+        0%      {visibility: hidden; width: 0;}
+        24%     {visibility: hidden; width: 0;}
+        25%     {visibility: visible; width: auto;}
+        99%     {visibility: visible; width: auto;}
+        100%    {visibility: hidden; width: 0;}
+    }
+
+    @keyframes display_two
+    {
+        0%      {visibility: hidden; width: 0;}
+        49%     {visibility: hidden; width: 0;}
+        50%     {visibility: visible; width: auto;}
+        99%     {visibility: visible; width: auto;}
+        100%    {visibility: hidden; width: 0;}
+    }
+
+    @keyframes display_three
+    {
+        0%      {visibility: hidden; width: 0;}
+        74%     {visibility: hidden; width: 0;}
+        75%     {visibility: visible; width: auto;}
+        99%     {visibility: visible; width: auto;}
+        100%    {visibility: hidden; width: 0;}
+    }
 }

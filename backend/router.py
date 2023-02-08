@@ -16,13 +16,15 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @cross_origin()
 def parse_word():
     word = request.json.get("parsed_poem", None)
-    return jsonify(parse_word_by_letters(word[0])), 200
+    print("Word received :", word)
+    return jsonify(parse_word_by_letters(word)), 200
 
 #--------------- TEXT ---------------#
 @app.route("/submit/text", methods=['POST'])
 @cross_origin()
 def parse_text_by_sentences_or_words():
     text = request.json.get("parsed_poem", None)
+    print("Text received :", text)
     return jsonify(parse_text(text)), 200
 
 

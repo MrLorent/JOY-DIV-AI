@@ -15,10 +15,9 @@ const App = () => {
   /*====== ATTRIBUTS ======*/
   const [generated_poem, set_generated_poem] = useState("");
   const [parsed_poem, set_parsed_poem] = useState(null);
-  const [curve, set_curve] = useState(null);
+  const [parsed_poem_idx, set_parsed_poem_idx] = useState(null);
+  const [endpoint, set_endpoint] = useState(null);
   const [curves, set_curves] = useState(null);
-  const [nb_curves, set_nb_curves] = useState(0);
-  const [curves_idx, set_curves_idx]= useState(0);
 
   /*====== METHODS ======*/
   const fetch_poem = async (prompt) => {
@@ -26,29 +25,27 @@ const App = () => {
     set_generated_poem(poem);
   };
 
-  const fetch_text_noise = async (poem) => {
-    set_curves("loading");
+  const fetch_noise = async (text, endpoint) => {
+    const data = await submit_text(text, endpoint);
+    const svg_curves = await generate_svg_curves(data);
+
+    set_curves([
+      ...curves === null ? [] : curves,
+      svg_curves
+    ]);
+  };
+
+  const init_fetch_noise = (poem) => {
+    set_curves(null);
+    set_parsed_poem_idx(0);
+
     const new_parsed_poem = parse_poem(poem);
     set_parsed_poem(new_parsed_poem);
 
-    const endpoint = new_parsed_poem.length === 1 ? "word" : "text";
-    set_nb_curves(new_parsed_poem.length);
-    set_curves_idx(0);
+    const new_endpoint = new_parsed_poem.length === 1 ? "word" : "text";
+    set_endpoint(new_endpoint);
 
-    console.log(nb_curves, curves_idx);
-
-    const data = await submit_text([new_parsed_poem[0]], endpoint);
-    const svg_curves = await generate_svg_curves(data);
-    set_curve(svg_curves);
-  };
-
-  const fetch_next_curve = async (next_idx) => {
-    console.log("next_curve called");
-    const endpoint = parsed_poem.length === 1 ? "word" : "text";
-
-    const data = await submit_text([parsed_poem[next_idx]], endpoint);
-    const svg_curves = await generate_svg_curves(data);
-    set_curve(svg_curves);
+    fetch_noise([new_parsed_poem[0]], new_endpoint);
   };
 
   const parse_poem = (poem) => {
@@ -152,22 +149,10 @@ const App = () => {
 
   /*====== HOOKS ======*/
   useEffect(() => {
-    if(!curve) return;
+    if(curves === null || curves === "loading" || parsed_poem_idx >= parsed_poem.length) return;
 
-    set_curves([
-      ...curves === "loading" || null ? [] : curves,
-      ...curve
-    ]);
-  }, [curve])
-
-  useEffect(() => {
-    if(curves === "loading" || null) return;
-
-    set_curves_idx(curves_idx + 1);
-    console.log("curves updated : ", nb_curves, " ", curves_idx);
-
-    if(curves_idx + 1 < nb_curves) fetch_next_curve(curves_idx + 1);
-
+    fetch_noise([parsed_poem[parsed_poem_idx + 1]], endpoint);
+    set_parsed_poem_idx(parsed_poem_idx + 1);
   }, [curves])
 
   /*======== RENDERER ========*/
@@ -183,12 +168,12 @@ const App = () => {
           {/* POEM INPUTS */}
           <div className="w-[calc(50%_-_1.5rem_/_2)] h-full flex flex-col">
             <OpenAIForm {...{ send_prompt: fetch_poem }}/>
-            <PoemForm {...{ generated_poem: generated_poem, send_poem: fetch_text_noise }}/>
+            <PoemForm {...{ generated_poem: generated_poem, send_poem: init_fetch_noise }}/>
           </div>
 
           {/* ILLUSTRATION */}
-          <div className="h-full flex grow justify-center p-5 ml-6 overflow-x-hidden overflow-y-auto border border-tertiary rounded-lg relative">
-            <Illustration {...{ curves }}/>
+          <div className="h-full flex grow justify-center p-5 ml-6 overflow-hidden border border-tertiary rounded-lg relative">
+            <Illustration {...{ curves, loading: (parsed_poem_idx === 0 || parsed_poem_idx < parsed_poem?.length) }}/>
           </div>
         </section>
       </main>
