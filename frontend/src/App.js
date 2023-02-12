@@ -14,6 +14,7 @@ import OpenAIForm from "./components/OpenAIForm";
 const App = () => {
   /*====== ATTRIBUTS ======*/
   const [generated_poem, set_generated_poem] = useState("");
+  const [open_ai_unwrap, set_open_ai_unwrap] = useState(false);
   const [parsed_poem, set_parsed_poem] = useState(null);
   const [parsed_poem_idx, set_parsed_poem_idx] = useState(null);
   const [endpoint, set_endpoint] = useState(null);
@@ -168,7 +169,14 @@ const App = () => {
           {/* POEM INPUTS */}
           <div className="w-[calc(50%_-_1.5rem_/_2)] h-full flex flex-col">
             <OpenAIForm {...{ send_prompt: fetch_poem }}/>
-            <PoemForm {...{ generated_poem: generated_poem, send_poem: init_fetch_noise }}/>
+            <PoemForm
+              {...{
+                generated_poem: generated_poem,
+                send_poem: init_fetch_noise,
+                open_ai_unwrap: open_ai_unwrap,
+                set_open_ai_unwrap: set_open_ai_unwrap
+              }}
+            />
           </div>
 
           {/* ILLUSTRATION */}

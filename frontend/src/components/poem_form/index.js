@@ -1,7 +1,7 @@
 // LIBRARIES
 import { useEffect, useRef, useState } from "react";
 
-const PoemForm = ({ generated_poem, send_poem }) => {
+const PoemForm = ({ generated_poem, send_poem, open_ai_unwrap, set_open_ai_unwrap }) => {
     /*======== ATTRIBUTS ========*/
     const MAX_CHARACTERS = 2500; 
     const [poem, set_poem] = useState("");
@@ -33,6 +33,10 @@ const PoemForm = ({ generated_poem, send_poem }) => {
         }
     };
 
+    const handle_click = () => {
+        set_open_ai_unwrap(!open_ai_unwrap);
+    }
+
     /*======== METHODS ========*/
     useEffect(() => {
         if(!generated_poem) return
@@ -57,7 +61,10 @@ const PoemForm = ({ generated_poem, send_poem }) => {
             >
 
             </textarea>
-            <button type="submit">Illustrate Poem</button>
+            <div className="w-full h-fit flex">
+                <button type="submit">Illustrate Poem</button>
+                <button type="button" className="ml-6" onClick={handle_click}>Need some help ?</button>
+            </div>
         </form>
     );
 }
