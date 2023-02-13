@@ -181,7 +181,7 @@ const App = () => {
           </div>
 
           {/* ILLUSTRATION */}
-          <div className="h-full flex flex-columns grow items-center ml-6">
+          <div className="w-[calc(50%_-_1.5rem_/_2)] h-full flex flex-columns items-center ml-6">
             <Illustration {...{ curves, loading: (curves === "loading" || curves?.length < parsed_poem?.length) }}/>
           </div>
         </section>
