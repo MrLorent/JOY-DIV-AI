@@ -16,7 +16,6 @@ const App = () => {
   const [generated_poem, set_generated_poem] = useState(null);
   const [open_ai_unwrap, set_open_ai_unwrap] = useState(false);
   const [parsed_poem, set_parsed_poem] = useState(null);
-  const [parsed_poem_idx, set_parsed_poem_idx] = useState(null);
   const [endpoint, set_endpoint] = useState(null);
   const [curves, set_curves] = useState(null);
 
@@ -30,24 +29,21 @@ const App = () => {
   const fetch_noise = async (text, endpoint) => {
     const data = await submit_text(text, endpoint);
     const svg_curves = await generate_svg_curves(data);
-
+    // console.log(svg_curves);
     set_curves([
-      ...curves === null ? [] : curves,
+      ...curves === null || curves === "loading" ? [] : curves,
       svg_curves
     ]);
   };
 
   const init_fetch_noise = (poem) => {
-    set_curves(null);
-    set_parsed_poem_idx(0);
-
     const new_parsed_poem = parse_poem(poem);
     set_parsed_poem(new_parsed_poem);
 
     const new_endpoint = new_parsed_poem.length === 1 ? "word" : "text";
     set_endpoint(new_endpoint);
 
-    fetch_noise([new_parsed_poem[0]], new_endpoint);
+    set_curves("loading");
   };
 
   const parse_poem = (poem) => {
@@ -151,10 +147,11 @@ const App = () => {
 
   /*====== HOOKS ======*/
   useEffect(() => {
-    if(curves === null || curves === "loading" || parsed_poem_idx >= parsed_poem.length) return;
-
-    fetch_noise([parsed_poem[parsed_poem_idx + 1]], endpoint);
-    set_parsed_poem_idx(parsed_poem_idx + 1);
+    const next_index = (curves === "loading" || curves === null ? 0 : curves.length);
+    
+    if(parsed_poem === null || curves === null || next_index >= parsed_poem?.length) return;
+    console.log(curves);
+    fetch_noise([parsed_poem[next_index]], endpoint);
   }, [curves])
 
   /*======== RENDERER ========*/
@@ -187,7 +184,7 @@ const App = () => {
 
           {/* ILLUSTRATION */}
           <div className="h-full flex flex-columns grow items-center ml-6">
-            <Illustration {...{ curves, loading: (parsed_poem_idx === 0 || parsed_poem_idx < parsed_poem?.length) }}/>
+            <Illustration {...{ curves, loading: (curves === "loading" || curves?.length < parsed_poem?.length) }}/>
           </div>
         </section>
       </main>

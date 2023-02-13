@@ -17,7 +17,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def parse_word():
     word = request.json.get("parsed_poem", None)
     print("Word received :", word)
-    return jsonify(parse_word_by_letters(word)), 200
+    return jsonify(parse_word_by_letters(word[0])), 200
 
 #--------------- TEXT ---------------#
 @app.route("/submit/text", methods=['POST'])

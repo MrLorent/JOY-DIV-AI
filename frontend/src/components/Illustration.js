@@ -9,7 +9,7 @@ const Illustration = ({ curves, loading }) => {
             <span className="mb-3">The Illustration :</span>
             <div id="illustration" className="w-full h-full flex flex-col items-center overflow-x-hidden overflow-y-auto pt-28 p-5 border border-tertiary rounded-lg relative">
             {
-                curves ? (
+                curves && curves !== "loading" ? (
                     <>
                     {
                         curves.map((curve, index) => <div key={index} className={"w-full h-5 flex justify-center items-end"} dangerouslySetInnerHTML={{__html: curve}}></div>)

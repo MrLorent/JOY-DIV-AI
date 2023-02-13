@@ -26,7 +26,7 @@ const PoemForm = ({ generated_poem, send_poem, open_ai_unwrap, set_open_ai_unwra
         {
             window.alert("ERROR : You're poem is to long. The limit is " + MAX_CHARACTERS + " caracteres.");
         }
-        else if(!poem.includes("\n") && (poem.count(".") > 1 && poem.count(",") > 1))
+        else if(!poem.includes("\n") && (poem.split(".").length > 2 && poem.split(",").length > 2))
         {
             window.alert("ERROR: Please, use line breaks to correctly indent your master piece.")
         }
