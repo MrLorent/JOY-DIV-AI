@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import ApexCharts from "apexcharts";
 
 // COMPONENTS
-import Header from "./components/header"
+import Header from "./components/Header"
+import Illustration from "./components/Illustration";
+import PoemForm from "./components/PoemForm";
+import OpenAIForm from "./components/OpenAIForm";
 
 // API CALLS
 import { submit_text, submit_prompt } from "./services/api/requests";
-import Illustration from "./components/illustration";
-import PoemForm from "./components/poem_form";
-import OpenAIForm from "./components/OpenAIForm";
 
 const App = () => {
   /*====== ATTRIBUTS ======*/
@@ -168,7 +168,12 @@ const App = () => {
 
           {/* POEM INPUTS */}
           <div className="w-[calc(50%_-_1.5rem_/_2)] h-full flex flex-col">
-            <OpenAIForm {...{ send_prompt: fetch_poem }}/>
+            <OpenAIForm
+              {...{
+                send_prompt: fetch_poem,
+                unwrap: open_ai_unwrap
+              }}
+            />
             <PoemForm
               {...{
                 generated_poem: generated_poem,
@@ -180,7 +185,7 @@ const App = () => {
           </div>
 
           {/* ILLUSTRATION */}
-          <div className="h-full flex grow justify-center p-5 ml-6 overflow-hidden border border-tertiary rounded-lg relative">
+          <div className="h-full flex flex-columns grow items-center ml-6">
             <Illustration {...{ curves, loading: (parsed_poem_idx === 0 || parsed_poem_idx < parsed_poem?.length) }}/>
           </div>
         </section>

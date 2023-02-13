@@ -92,16 +92,16 @@
         border-color: theme("borderColor.primary");
         width: theme("width.fit");
         position: relative;
-        padding: theme("padding.3");
+        padding: theme("padding.3") theme("padding.4");
         margin: theme("margin.5") 0 0 0;
-        transition: 0.25s ease-in;
+        transition: background-color 0.25s ease-in, color 0.25s ease-in;
     }
 
     button:hover
     {
         color: theme("colors.background");
         background-color: theme("colors.primary");
-        transition: 0.25s ease-out;
+        transition: background-color 0.25s ease-in, color 0.25s ease-in;
         
     }
 

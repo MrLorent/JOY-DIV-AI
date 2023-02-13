@@ -37,7 +37,7 @@ export async function submit_prompt(prompt)
     let poem = response.data.choices[0].text;
 
     // Clean response
-    while(poem[0] === "\n") poem = poem.slice(1);
+    while(poem[0] === "\n" || poem[0] === ".") poem = poem.slice(1);
 
     return poem;
 }
