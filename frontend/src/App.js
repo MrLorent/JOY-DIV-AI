@@ -29,11 +29,8 @@ const App = () => {
   const fetch_noise = async (text, endpoint) => {
     const data = await submit_text(text, endpoint);
     const svg_curves = await generate_svg_curves(data);
-    // console.log(svg_curves);
-    set_curves([
-      ...curves === null || curves === "loading" ? [] : curves,
-      svg_curves
-    ]);
+    
+    set_curves((curves === "loading" ? [] : curves).concat(svg_curves));
   };
 
   const init_fetch_noise = (poem) => {
@@ -138,8 +135,9 @@ const App = () => {
       }]);
   
       // Save the current chart as SVG
-      svg_curves.push(apexchart.ctx.exports.getSvgString());
+      svg_curves.push(apexchart.ctx.exports.getSvgString().toString());
     }
+
     apexchart.destroy();
 
     return svg_curves;
@@ -150,7 +148,7 @@ const App = () => {
     const next_index = (curves === "loading" || curves === null ? 0 : curves.length);
     
     if(parsed_poem === null || curves === null || next_index >= parsed_poem?.length) return;
-    console.log(curves);
+    
     fetch_noise([parsed_poem[next_index]], endpoint);
   }, [curves])
 
