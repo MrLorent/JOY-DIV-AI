@@ -13,7 +13,7 @@ import { submit_text, submit_prompt } from "./services/api/requests";
 
 const App = () => {
   /*====== ATTRIBUTS ======*/
-  const [generated_poem, set_generated_poem] = useState("");
+  const [generated_poem, set_generated_poem] = useState(null);
   const [open_ai_unwrap, set_open_ai_unwrap] = useState(false);
   const [parsed_poem, set_parsed_poem] = useState(null);
   const [parsed_poem_idx, set_parsed_poem_idx] = useState(null);
@@ -22,6 +22,7 @@ const App = () => {
 
   /*====== METHODS ======*/
   const fetch_poem = async (prompt) => {
+    set_generated_poem("loading");
     const poem = await submit_prompt(prompt);
     set_generated_poem(poem);
   };
