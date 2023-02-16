@@ -48,12 +48,16 @@ const App = () => {
 
     if(!poem.includes("\n"))
     {
-      poem  =   poem.replace(/[,.']/g, "")    // remove commas, dots, and apostrophes
+      poem  =   poem.replace(/[,.';]/g, "")    // remove commas, dots, and apostrophes
+                    .replace(/['’-]/g, "")
+                    .replace(/[!?]/g, "")
                     .split(" ")               // split sentences into separated words
     }
     else
     {
-      poem  =   poem.replace(/[,.']/g, "")    // remove commas, dots, and apostrophes
+      poem  =   poem.replace(/[,.'';']/g, "")    // remove commas, dots, and apostrophes
+                    .replace(/['’-]/g, "")
+                    .replace(/[!?]/g, "")
                     .replace(/\n{2,}/g,"\n")  // replace multiple line breaks to simple one
                     .split(" ").join("_")     // replace space by underscores
                     .split("\n");             // split text into separated sentences
