@@ -1,4 +1,4 @@
-# JOY-DIV-AI
+# QUANTUM_CREATION
 
 ## LAUNCH LOCAL BACKEND SETUP
 ### A) First install
