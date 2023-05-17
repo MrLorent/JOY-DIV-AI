@@ -23,7 +23,7 @@ export async function submit_prompt(prompt)
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
     });
     const openai = new OpenAIApi(configuration);
-
+    console.log("sending");
     const response = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: prompt,
