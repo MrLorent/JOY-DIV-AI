@@ -26,7 +26,7 @@ const OpenAIForm = ({ unwrap, send_prompt }) => {
 
     /*======== RENDERER ========*/
     return (
-        <form className={"w-full flex flex-col overflow-hidden transition-all " + (unwrap ? "h-1/4 mb-5" : "h-0")} onSubmit={handle_submit}>
+        <form className={"w-full flex flex-col overflow-hidden transition-all " + (unwrap ? "h-1/3 mb-5" : "h-0")} onSubmit={handle_submit}>
             <label htmlFor="prompt" className="mb-3">Enter a prompt :</label>
             <textarea
                 id="prompt"

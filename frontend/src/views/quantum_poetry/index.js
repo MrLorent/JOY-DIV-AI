@@ -111,6 +111,12 @@ const QuantumPoetry = () => {
             labels: {
                 show: false,
             },
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false
+            }
         },
         yaxis: {
             labels: {
@@ -157,8 +163,8 @@ const QuantumPoetry = () => {
 
     /*======== RENDERER ========*/
     return (
-        <main className="w-full h-full pt-[var(--header-height)]">
-            <section id="main" className="w-full h-full p-6 flex justify-between">
+        <main className="w-full h-[calc(100%_-_var(--footer-height))] pt-[var(--header-height)]">
+            <section id="quantum-poetry" className="w-full h-full p-6 flex justify-between">
 
                 {/* POEM INPUTS */}
                 <div className="w-[calc(50%_-_1.5rem_/_2)] h-full flex flex-col">

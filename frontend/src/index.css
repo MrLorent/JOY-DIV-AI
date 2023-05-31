@@ -7,14 +7,17 @@
     /*-------- COLORS --------*/
     --black: #000000;
     --dark-grey: #303030;
+    --light-grey: #555555;
     --white: #ffffff;
 
     --background: var(--white);
     --primary: var(--black);
+    --secondary: var(--light-grey);
     --tertiary: var(--dark-grey);
 
     /*-------- SIZES --------*/
     --header-height: 65px;
+    --footer-height: 50px;
 }
 
 [data-theme="dark"]
@@ -82,7 +85,8 @@
         margin: 0;
     }
 
-    button
+    button,
+    .call-to-action
     {
         font-size: theme("fontSize.sm");
         text-transform: uppercase;
@@ -97,7 +101,8 @@
         transition: background-color 0.25s ease-in, color 0.25s ease-in;
     }
 
-    button:hover
+    button:hover,
+    .call-to-action:hover
     {
         color: theme("colors.background");
         background-color: theme("colors.primary");

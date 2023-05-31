@@ -1,4 +1,5 @@
 // COMPONENTS
+import Footer from "./components/Footer";
 import Header from "./components/Header"
 import Router from "./router";
 
@@ -12,6 +13,9 @@ const App = () => {
 
       {/* MAIN */}
       <Router />
+
+      {/* FOOTER */}
+      <Footer/>
     </>
   );
 }
